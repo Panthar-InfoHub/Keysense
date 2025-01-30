@@ -1,17 +1,28 @@
+'use client'
 import AddPlaceCard from '@/components/AddPlaceCard'
 import PlaceCard from '@/components/PlaceCard'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import axios from 'axios'
 import { Plus } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
-const page = () => {
+const Home = () => {
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        fetch("https://floralwhite-shrew-198037.hostingersite.com/wp-json/wp/v2/places")
+            .then(response => response.json())
+            .then(data => {
+                setPosts(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching reviews:", error);
+                setLoading(false);
+            });
+    }, []);
 
-    const cards = [
-        { name: "Test", address: "Test addres", distance: "3Km", location: "Tokyo main street" },
-        { name: "Test", address: "Test addres", distance: "3Km", location: "Tokyo main street" },
-        { name: "Test", address: "Test addres", distance: "3Km", location: "Tokyo main street" },
-        { name: "Test", address: "Test addres", distance: "3Km", location: "Tokyo main street" },
-    ]
 
     return (
         <section className='py-14 px-4 w-full overflow-hidden' >
@@ -33,7 +44,7 @@ const page = () => {
             </div>
 
             <div className='grid xl:grid-cols-6 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 mt-8' >
-                {cards.map((card, i) => {
+                {posts.map((card, i) => {
                     return (
                         <PlaceCard card={card} key={i} />
                     )
@@ -43,4 +54,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Home
