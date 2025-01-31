@@ -29,13 +29,7 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <div className="grid md:grid-cols-body min-h-screen w-full" >
-            <Navbar />
-            <div className="flex flex-col" >
-              <ExtraNav />
-              {children}
-            </div>
-          </div>
+          {children}
         </NextThemeProvider>
       </body>
     </html>

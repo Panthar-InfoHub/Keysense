@@ -1,12 +1,55 @@
-import React from "react"
+"use client"
 import { MoreVertical, Star } from "lucide-react"
 import { Button } from "./ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { unpublishReview } from "@/lib/edit_action"
+import { removeReview } from "@/lib/removeAction"
+import { useState } from "react"
 
-const ReviewCard = ({ review }) => {
+const ReviewCard = ({ review, setReviews }) => {
+  const [editOpen, setEditOpen] = useState(false)
+
+  const handleUnpublish = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await unpublishReview(review.id, review.acf?.status);
+      if (res.status === "SUCCESS") {
+        const res = await getHotelReview();
+        if (res.status == "SUCCESS") {
+          alert("Update review");
+          setReviews(res?.data)
+          setEditOpen(false)
+        }
+      }
+    } catch (error) {
+      console.log("ERROR : ", error)
+    }
+  }
+
+  const handleRemove = async (e) => {
+    e.preventDefault();
+    const postId = parseInt(review.id, 10);
+
+    try {
+      const res = await removeReview(postId)
+      if (res.status === "SUCCESS") {
+        const res = await getHotelReview();
+        if (res.status == "SUCCESS") {
+          alert("Removed review");
+          setReviews(res?.data)
+          setEditOpen(false)
+        }
+      }
+    } catch (error) {
+
+    }
+  }
+
   return (
     <>
-      <div key={review.id} className="w-full max-w-md bg-zinc-900 text-white border border-zinc-800 rounded-lg overflow-hidden">
+      <div key={review.id} className="w-full max-w-md bg-zinc-900 text-white border border-zinc-800 rounded-lg overflow-hidden relative">
+        <div className={`h-4 w-4 absolute -top-0 -left-0 rounded-full ${review.acf?.status === "publish" ? "bg-green-400" : "bg-red-500"} `} />
+
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <div className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center">
@@ -18,15 +61,15 @@ const ReviewCard = ({ review }) => {
             </div>
           </div>
           <div className="relative">
-            <DropdownMenu>
+            <DropdownMenu open={editOpen} onOpenChange={setEditOpen} >
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0 bg-muted">
                   <MoreVertical className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-[160px] bg-zinc-900 border-zinc-800">
-                <DropdownMenuItem className="text-zinc-400 cursor-pointer">Unpublish</DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">Remove</DropdownMenuItem>
+                <DropdownMenuItem className="text-zinc-400 cursor-pointer" onSelect={(e) => handleUnpublish(e)} >{review.acf?.status === "publish" ? "Unpublish" : "Publish"}</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer" onSelect={(e) => handleRemove(e)} >Remove</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

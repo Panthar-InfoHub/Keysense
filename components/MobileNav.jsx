@@ -1,23 +1,22 @@
-import React from 'react'
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
-import { Button } from './ui/button'
-import { Menu } from 'lucide-react'
-import { ForkKnifeCrossed, Home, MapIcon, Settings, Star, Users } from 'lucide-react'
+import { getName } from '@/lib/actions'
+import { ForkKnifeCrossed, Home, MapIcon, Menu, Settings, Star, Users } from 'lucide-react'
 import Link from 'next/link'
+import { Button } from './ui/button'
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 
-const MobileNav = () => {
+const MobileNav = async() => {
 
     const NavData = [
-        { title: "Dashoard", link: "/admin", icon: <Home className='size-4' /> },
-        { title: "Reservation", link: "/reservation", icon: <Users className='size-4' /> },
-        { title: "Places", link: "/places", icon: <MapIcon className='size-4' /> },
-        { title: "Menu", link: "/menu", icon: <ForkKnifeCrossed className='size-4' /> },
-        { title: "Banners", link: "/banner", icon: <Home className='size-4' /> },
-        { title: "Reviews", link: "/review", icon: <Star className='size-4' /> },
-        { title: "Setting", link: "/setting", icon: <Settings className='size-4' /> },
+        { title: "Dashoard", link: "admin", icon: <Home className='size-4' /> },
+        { title: "Reservation", link: "reservation", icon: <Users className='size-4' /> },
+        { title: "Places", link: "places", icon: <MapIcon className='size-4' /> },
+        { title: "Menu", link: "menu", icon: <ForkKnifeCrossed className='size-4' /> },
+        { title: "Banners", link: "banner", icon: <Home className='size-4' /> },
+        { title: "Reviews", link: "review", icon: <Star className='size-4' /> },
+        { title: "Setting", link: "setting", icon: <Settings className='size-4' /> },
         { title: "Custom Link", link: "/", icon: <Settings className='size-4' /> },
     ]
-
+    const res = await getName();
     return (
         <div className='flex md:hidden' >
             <Sheet>
@@ -28,7 +27,7 @@ const MobileNav = () => {
                     <nav className='grid gap-2 items-start px-2 text-sm font-medium lg:px-4' >
                         {
                             NavData.map((item) => (
-                                <Link href={item.link} key={item.title} className='hover:bg-muted text-xs text-primary cursor-pointer flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary' >
+                                <Link href={`/${res?.name}/${item.link}`} key={item.title} className='hover:bg-muted text-xs text-primary cursor-pointer flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary' >
                                     <span> {item.icon} </span>
                                     {item.title}
                                 </Link>

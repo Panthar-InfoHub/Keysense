@@ -2,25 +2,32 @@
 import AddPlaceCard from '@/components/AddPlaceCard'
 import PlaceCard from '@/components/PlaceCard'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import axios from 'axios'
+import { Skeleton } from '@/components/ui/skeleton'
+import { getHotelPlaces } from '@/lib/actions'
 import { Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 const Home = () => {
     const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true)
+    const [open, setOpen] = useState(false)
+
     useEffect(() => {
-        fetch("https://floralwhite-shrew-198037.hostingersite.com/wp-json/wp/v2/places")
-            .then(response => response.json())
-            .then(data => {
-                setPosts(data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error("Error fetching reviews:", error);
-                setLoading(false);
-            });
+        const fetchReservations = async () => {
+            try {
+                const res = await getHotelPlaces();
+                if (res.status == "SUCCESS") {
+                    setPosts(res.data)
+                }
+            } catch (error) {
+                console.error("Error fetching reservations:", error);
+            } finally {
+                setIsLoading(false)
+            }
+        };
+        fetchReservations();
     }, []);
 
 
@@ -32,12 +39,12 @@ const Home = () => {
                     <p className='text-xs text-white/80' > All famous places near your hotel </p>
                 </div>
                 <div className="" >
-                    <Dialog>
+                    <Dialog open={open} onOpenChange={setOpen} >
                         <DialogTrigger asChild>
                             <Button className="text-xs" > <span className='hidden md:flex' > Add Places </span> <Plus /> </Button>
                         </DialogTrigger>
                         <DialogContent className="w-full sm:max-w-[50%] !text-xs !p-0 !border-none rounded-xl overflow-hidden">
-                            <AddPlaceCard />
+                            <AddPlaceCard setOpen={setOpen} setPosts={setPosts} />
                         </DialogContent>
                     </Dialog>
                 </div>
@@ -46,7 +53,15 @@ const Home = () => {
             <div className='grid xl:grid-cols-6 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 mt-8' >
                 {posts.map((card, i) => {
                     return (
-                        <PlaceCard card={card} key={i} />
+                        isLoading ? (
+                            <Card>
+                                <CardContent>
+                                    <Skeleton className="h-full w-full" />
+                                </CardContent>
+                            </Card>
+                        ) : (
+                            <PlaceCard setPosts={setPosts} card={card} key={i} />
+                        )
                     )
                 })}
             </div>

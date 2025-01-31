@@ -1,26 +1,31 @@
 'use client'
 import BannerCard from '@/components/BannerCard'
-import PlaceCard from '@/components/PlaceCard'
 import SmallBanner from '@/components/SmallBannerCard'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Skeleton } from '@/components/ui/skeleton'
+import { getHotelBanner } from '@/lib/actions'
 import { Plus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 const page = () => {
     const [banners, setBanners] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
-        fetch("https://floralwhite-shrew-198037.hostingersite.com/wp-json/wp/v2/banners")
-            .then(response => response.json())
-            .then(data => {
-                setBanners(data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error("Error fetching reviews:", error);
-                setLoading(false);
-            });
+        const fetchBanner = async () => {
+            try {
+                const res = await getHotelBanner();
+                if (res.status == "SUCCESS") {
+                    setBanners(res?.data)
+                }
+            } catch (error) {
+                console.error("Error fetching reservations:", error);
+            } finally {
+                setIsLoading(false)
+            }
+        };
+        fetchBanner();
     }, []);
 
     return (
@@ -45,7 +50,15 @@ const page = () => {
             <div className='grid xl:grid-cols-6 lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6 mt-8' >
                 {banners.map((card, i) => {
                     return (
-                        <SmallBanner banner={card} key={i} />
+                        isLoading ? (
+                            <Card>
+                                <CardContent>
+                                    <Skeleton className="h-full w-full" />
+                                </CardContent>
+                            </Card>
+                        ) : (
+                            <SmallBanner setBanners={setBanners} banner={card} key={i} />
+                        )
                     )
                 })}
             </div>
