@@ -1,56 +1,28 @@
-import { getHotelPlaces } from "@/lib/actions"
-import { removePlace } from "@/lib/removeAction"
 import { MoreVertical } from "lucide-react"
 import Image from "next/image"
 import { useState } from "react"
-import EditPlaceCard from "./edit/PlaceEdit"
+import BannerEdit from "./edit/BannerEdit"
 import { Button } from "./ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
-const PlaceCard = ({ card, setPosts }) => {
+const PlaceCard = ({ banner, setBanners }) => {
   const [editOpen, setEditOpen] = useState(false)
-
-  const handleRemove = async (e) => {
-    e.preventDefault();
-    const postId = parseInt(card.id, 10);
-    console.log("🟡 Removing place with ID:", postId);
-
-    if (isNaN(postId)) {
-      console.error("❌ Invalid ID: Not a number");
-      alert("Invalid place ID.");
-      return;
-    }
-
-    try {
-      const res = await removePlace(postId)
-      if (res.status === "SUCCESS") {
-        alert("Place deleted successfully!");
-        const res = await getHotelPlaces();
-        if (res.status == "SUCCESS") {
-          setPosts(res.data)
-        }
-      }
-    } catch (error) {
-
-    }
-  }
-
   return (
-    <div className="rounded-xl border overflow-hidden">
+    <div className="rounded-xl border ">
       <div className="relative h-[5rem] aspect-square w-full rounded-t-xl">
-        <Image alt="place" fill className="object-cover rounded-t-xl" src={card.acf?.place_img} />
+        <Image alt="place" fill className="object-cover rounded-t-xl" src={banner.acf?.image} />
       </div>
       <div className="bg-muted p-2 flex justify-between items-center w-full rounded-b-xl">
-        <div className={`h-4 w-4 rounded-full `} />
+        <div className={`h-4 w-4 rounded-full ${banner.acf?.status === "active" ? "bg-green-400" : "bg-red-500"} `} />
         <div className="!text-xs">
-          <h3 className="line-clamp-1" >{card.acf?.name}</h3>
-          <p className="text-xs line-clamp-1" > Address : {card.acf?.address} </p>
+          <h3>{banner.acf?.title}</h3>
+          <p> placement :  {banner.acf?.position}</p>
         </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0 bg-black">
+            <Button variant="ghost" className="h-8 w-8 p-0 bg-muted">
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -62,10 +34,10 @@ const PlaceCard = ({ card, setPosts }) => {
                 </DropdownMenuItem>
               </DialogTrigger>
               <DialogContent className="w-full sm:max-w-[50%] !text-xs !p-0 !border-none rounded-xl overflow-hidden">
-                <EditPlaceCard setPosts={setPosts} setEditOpen={setEditOpen} place={card} />
+                <BannerEdit setBanners={setBanners} setEditOpen={setEditOpen} banner={banner} />
               </DialogContent>
             </Dialog>
-            <DropdownMenuItem className="cursor-pointer" onSelect={(e) => handleRemove(e)} >Remove</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">Remove</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

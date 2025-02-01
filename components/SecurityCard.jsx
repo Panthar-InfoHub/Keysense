@@ -1,9 +1,28 @@
-import React from 'react'
+'use client'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import { useActionState } from 'react'
+import { updateHotelPassword } from '@/lib/postActions'
 
 const SecurityCard = () => {
+
+    const handleUpdatePassword = async (prev, formData) => {
+        try {
+            const res = await updateHotelPassword(formData);
+            if (res.status === "SUCCESS") {
+                alert("Password updated successfully!");
+            } else {
+                alert(res.message);
+            }
+        } catch (error) {
+            console.error("Error updating password:", error);
+        }
+    };
+
+    const [state, formAction, isPending] = useActionState(handleUpdatePassword, { error: "", status: "INITIAL" });
+
+
     return (
         <Card className="w-full bg-background text-white">
             <CardHeader className="p-4"  >
@@ -15,11 +34,11 @@ const SecurityCard = () => {
 
                         <div className="space-y-2">
                             <label htmlFor="new" className=""> New Password </label>
-                            <Input id="new" className="bg-transparent border-gray-800 text-white" placeholder="" />
+                            <Input id="new" name="new" className="bg-transparent border-gray-800 text-white" placeholder="" />
                         </div>
                         <div className="space-y-2">
                             <label htmlFor="confirm" className=""> Confirm Password </label>
-                            <Input id="confirm" className="bg-transparent border-gray-800 text-white" placeholder="" />
+                            <Input id="confirm" name="confirm" className="bg-transparent border-gray-800 text-white" placeholder="" />
                         </div>
                     </div>
 
