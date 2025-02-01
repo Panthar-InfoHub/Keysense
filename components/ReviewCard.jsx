@@ -48,7 +48,10 @@ const ReviewCard = ({ review, setReviews }) => {
   return (
     <>
       <div key={review.id} className="w-full max-w-md bg-zinc-900 text-white border border-zinc-800 rounded-lg overflow-hidden relative">
-        <div className={`h-4 w-4 absolute -top-0 -left-0 rounded-full ${review.acf?.status === "publish" ? "bg-green-400" : "bg-red-500"} `} />
+        <span className={`absolute flex justify-center items-center h-3 w-3 animate-ping rounded-full opacity-75 top-2 left-2 ${review.acf?.status === "publish" ? "bg-green-400" : "bg-red-500"}`}>
+          <span className={`relative inline-flex h-2 w-2 rounded-full  ${review.acf?.status === "publish" ? "bg-green-400" : "bg-red-500"}`} ></span>
+        </span>
+
 
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
@@ -86,7 +89,7 @@ const ReviewCard = ({ review, setReviews }) => {
           </div>
           <p className="text-sm text-zinc-200">{review.acf?.content || "No review available."}</p>
         </div>
-      </div>
+      </div >
     </>
   )
 }

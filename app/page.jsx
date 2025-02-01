@@ -10,20 +10,19 @@ import { useEffect } from 'react'
 
 const page = () => {
     const router = useRouter()
-
-    useEffect(async () => {
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const res = await getName();
-                if (res?.status === "SUCCESS") {
-                    router.push(`/${res?.name}/admin`);
+                if (res?.status === "SUCCESS" && res?.name) {
+                    router.push(`/${res.name}/admin`);
                 }
             } catch (error) {
                 console.error("Error fetching name:", error);
             }
         };
         fetchData();
-    }, [])
+    }, [router]);
 
     return (
         <div className=" md:grid md:grid-cols-2 relative h-screen w-full" >

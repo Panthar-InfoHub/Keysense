@@ -3,7 +3,7 @@ import BannerCard from '@/components/BannerCard'
 import SmallBanner from '@/components/SmallBannerCard'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getHotelBanner } from '@/lib/actions'
 import { Plus } from 'lucide-react'
@@ -41,6 +41,7 @@ const page = () => {
                             <Button className="text-xs" > <span className='hidden md:flex' > Add Banner </span> <Plus /> </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[30%] !text-xs !p-0 !border-none rounded-xl overflow-hidden">
+                            <DialogTitle className="p-4 bg-muted/50" >Add Banner</DialogTitle>
                             <BannerCard />
                         </DialogContent>
                     </Dialog>

@@ -27,7 +27,7 @@ export default function ReservationTable({ reservations = [] }) {
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
       case "approved":
-        return "bg-green-500/10 text-green-500 hover:bg-green-500/20"
+        return "bg-green-500/10 text-green-500 hover:bg-green-500/20 font-medium"
       case "pending":
         return "bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20"
       case "cancelled":
@@ -49,7 +49,7 @@ export default function ReservationTable({ reservations = [] }) {
           <SelectTrigger className="w-[100px] bg-[#1c1c1c] border-0">
             <SelectValue placeholder="Search by" />
           </SelectTrigger>
-          <SelectContent className="bg-[#1c1c1c] border-gray-800">
+          <SelectContent className="">
             <SelectItem value="name">Name</SelectItem>
             <SelectItem value="phone">Phone</SelectItem>
             <SelectItem value="id">ID</SelectItem>
@@ -59,12 +59,12 @@ export default function ReservationTable({ reservations = [] }) {
           placeholder={`Search by ${searchField}...`}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-1 bg-[#1c1c1c] border-0 text-white placeholder:text-gray-400"
+          className="flex-1 border-b text-white placeholder:text-gray-400"
         />
       </div>
 
-      <div className="rounded-lg border text-card-foreground">
-        <Table>
+      <div className="rounded-lg border !border-white/20 text-card-foreground">
+        <Table  >
           <TableHeader>
             <TableRow className="border-gray-800 hover:bg-transparent">
               <TableHead className="text-gray-400">Name</TableHead>
@@ -87,7 +87,7 @@ export default function ReservationTable({ reservations = [] }) {
               </TableRow>
             ) : (
               filteredReservations.map((reservation) => (
-                <TableRow key={reservation.id} className="!text-xs border-gray-800 hover:bg-gray-800/50">
+                <TableRow key={reservation.id} className="!text-xs border-gray-800 hover:bg-gray-800/50 ">
                   <TableCell className="font-medium text-white">{reservation.acf?.guest_name || "N/A"}</TableCell>
                   <TableCell>
                     <Badge variant="secondary" className={getStatusColor(reservation.acf?.status)}>

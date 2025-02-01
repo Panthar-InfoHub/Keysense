@@ -60,12 +60,9 @@ const AddMenu = ({ setOpen, setAllMenuItems, setTotalPages }) => {
             </div>
 
             <div className='w-full flex flex-col' >
-                <div className='p-4 bg-muted/50' >
-                    <h3 className='font-semibold' > Add Place </h3>
-                </div>
 
                 <div className='flex flex-col gap-6 p-4  bg-black' >
-                    <h3 className='' > Place Details </h3>
+                    <h3 className='' > Dish Details </h3>
                     <div>
                         <label className='text-white/60' > Name </label>
                         <Input id="name" name="name" className="bg-transparent border-gray-800 text-white" />

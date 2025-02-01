@@ -1,27 +1,27 @@
 "use client"
 
+import { loginUser } from '@/lib/actions'
 import { Send } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useActionState, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import { loginUser } from '@/lib/actions'
-import useAuthStore from '@/lib/store'
 
 const LoginForm = () => {
     const [errors, setErrors] = useState({})
     const router = useRouter();
-    const setHotelData = useAuthStore((state) => state.setHotelData);
 
     const handleFormSubmit = async (prevState, formData) => {
         try {
             const res = await loginUser(formData)
-            if (res.status === "SUCCESS") {
-                setHotelData(res.data.hotelId, res.data.hotelName);
+            if (res?.status === "SUCCESS") {
+                console.log("RES INFORM :", res)
                 router.push(`/${res.data.hotelName}/admin`)
+                return { status: "SUCCESS" }
             }
         } catch (error) {
             console.log("ERROR : ", error)
+            return { status: "ERROR", error: error.message }
         }
     }
     const [state, formAction, isPending] = useActionState(handleFormSubmit, { error: "", status: "INITIAL" });

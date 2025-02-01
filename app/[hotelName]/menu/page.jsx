@@ -3,7 +3,7 @@ import AddMenu from "@/components/AddMenu"
 import MenuCard from "@/components/MenuCard"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getHotelMenu } from "@/lib/actions"
 import { Plus } from "lucide-react"
@@ -69,6 +69,7 @@ const Page = () => {
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="w-full sm:max-w-[50%] !text-xs !p-0 !border-none rounded-xl overflow-hidden">
+                            <DialogTitle className="p-4 bg-muted/50" >Add Menu</DialogTitle>
                             <AddMenu setOpen={setOpen} setTotalPages={setTotalPages} setAllMenuItems={setAllMenuItems} />
                         </DialogContent>
                     </Dialog>

@@ -3,7 +3,7 @@ import AddReviewCard from '@/components/AddReviewCard'
 import ReviewCard from '@/components/ReviewCard'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getHotelReview } from '@/lib/actions'
 import { Plus } from 'lucide-react'
@@ -44,6 +44,7 @@ const page = () => {
                             <Button className="text-xs" > <span className='hidden md:flex' > Add Reviews </span> <Plus /> </Button>
                         </DialogTrigger>
                         <DialogContent className=" w-full sm:w-[30%] !text-xs !p-0 !border-none rounded-xl overflow-hidden">
+                            <DialogTitle className="p-4 bg-muted/50" >Add Reviews</DialogTitle>
                             <AddReviewCard setReviews={setReviews} setOpen={setOpen} />
                         </DialogContent>
                     </Dialog>
