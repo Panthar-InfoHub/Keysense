@@ -48,8 +48,8 @@ const ReviewCard = ({ review, setReviews }) => {
   return (
     <>
       <div key={review.id} className="w-full max-w-md bg-zinc-900 text-white border border-zinc-800 rounded-lg overflow-hidden relative">
-        <span className={`absolute flex justify-center items-center h-3 w-3 animate-ping rounded-full opacity-75 top-2 left-2 ${review.acf?.status === "publish" ? "bg-green-400" : "bg-red-500"}`}>
-          <span className={`relative inline-flex h-2 w-2 rounded-full  ${review.acf?.status === "publish" ? "bg-green-400" : "bg-red-500"}`} ></span>
+        <span className={`absolute flex justify-center items-center h-3 w-3  rounded-full opacity-75 top-2 left-1 ${review.acf?.status === "publish" ? "bg-green-400" : "bg-red-500"}`}>
+          <span className={`relative inline-flex h-4 w-4 rounded-[50%] animate-ping ${review.acf?.status === "publish" ? "bg-green-400/50" : "bg-red-500/50"}`} ></span>
         </span>
 
 

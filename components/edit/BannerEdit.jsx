@@ -9,6 +9,7 @@ import { Button } from "../ui/button"
 import { editBanner } from "@/lib/edit_action"
 import { uploadMedia } from "@/lib/postActions"
 import { getHotelBanner } from "@/lib/actions"
+import { toast } from "sonner"
 
 const BannerEdit = ({ banner, setEditOpen, setBanners }) => {
   const [imagePreview, setImagePreview] = useState(banner?.acf?.image || null)
@@ -35,7 +36,7 @@ const BannerEdit = ({ banner, setEditOpen, setBanners }) => {
       })
 
       if (res.status === "SUCCESS") {
-        alert("Banner updated successfully!");
+        toast.success('Banner Updated successfully')
         const res = await getHotelBanner();
         if (res.status == "SUCCESS") {
           setBanners(res?.data)

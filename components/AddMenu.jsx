@@ -7,6 +7,7 @@ import { useActionState, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
+import { toast } from 'sonner'
 
 const AddMenu = ({ setOpen, setAllMenuItems, setTotalPages }) => {
     const [imagePreview, setImagePreview] = useState(null);
@@ -21,7 +22,7 @@ const AddMenu = ({ setOpen, setAllMenuItems, setTotalPages }) => {
 
             const res = await createHotelMenu(formData, imageUrl);
             if (res.status === "SUCCESS") {
-                alert("Menu Added successfully!");
+                toast.success('Menu Added successfully')
                 const res = await getHotelMenu({ page: 1, per_page: 50 });
                 if (res.status === "SUCCESS") {
                     setOpen(false)

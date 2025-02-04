@@ -1,4 +1,5 @@
 'use client'
+import QrCodeGenerator from '@/components/QrCodeGenerator'
 import { RecentTable } from '@/components/RecentTable'
 import { ReservationCard } from '@/components/ReservationCard'
 import { Button } from '@/components/ui/button'
@@ -9,15 +10,17 @@ import { ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-const page = () => {
+const page = ({ params }) => {
     const [reservation, setReservations] = useState([]);
     const [isLoading, setIsLoading] = useState(true)
+    const [name, setName] = useState(null)
 
     useEffect(() => {
-        let isMounted = true; // ✅ Prevents setting state after unmount
+        let isMounted = true;
         const fetchReservations = async () => {
             try {
                 const res = await getHotelReservation();
+                setName((await params.hotelName));
                 if (isMounted && res.status === "SUCCESS") {
                     setReservations(res?.data);
                 }
@@ -29,7 +32,7 @@ const page = () => {
         };
         fetchReservations();
         return () => {
-            isMounted = false; // ✅ Prevents state updates if component unmounts
+            isMounted = false;
         };
 
     }, []);
@@ -40,7 +43,7 @@ const page = () => {
             <h1 className='text-2xl font-bold' > Dashboard </h1>
             <div className='flex gap-4 sm:flex-row flex-col' >
                 <div className='flex flex-col gap-7 mt-4 w-full ' >
-                    <div>
+                    <div className='flex flex-col gap-8' >
                         <Card className="bg-background" >
                             <CardHeader className="p-4" >
                                 <CardTitle>View Reservations</CardTitle>
@@ -50,6 +53,10 @@ const page = () => {
                                 <Button> <Link href={`/test/reservation`} className='flex items-center' > View <ArrowUpRight /> </Link> </Button>
                             </CardContent>
                         </Card>
+
+                        <div>
+                            <QrCodeGenerator name={name} />
+                        </div>
                     </div>
                     <div>
                         {isLoading ? (

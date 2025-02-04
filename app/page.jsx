@@ -2,7 +2,7 @@
 import LoginForm from '@/components/LoginForm'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { checkCookie, getName } from '@/lib/actions'
+import { getName } from '@/lib/actions'
 import { Building, User } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
