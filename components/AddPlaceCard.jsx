@@ -6,6 +6,7 @@ import { useActionState, useState } from 'react'
 import { createPlace, uploadMedia } from '@/lib/postActions'
 import Image from 'next/image'
 import { getHotelPlaces } from '@/lib/actions'
+import { toast } from 'sonner'
 
 const AddPlaceCard = ({ setOpen, setPosts }) => {
     const [imagePreview, setImagePreview] = useState(null);
@@ -20,7 +21,7 @@ const AddPlaceCard = ({ setOpen, setPosts }) => {
 
             const res = await createPlace(formData, imageUrl);
             if (res.status === "SUCCESS") {
-                alert("Place added successfully!");
+                toast.success('Place added successfully')
                 const res = await getHotelPlaces();
                 if (res.status == "SUCCESS") {
                     setPosts(res.data)

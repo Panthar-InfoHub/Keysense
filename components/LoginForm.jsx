@@ -15,7 +15,6 @@ const LoginForm = () => {
         try {
             const res = await loginUser(formData)
             if (res?.status === "SUCCESS") {
-                console.log("RES INFORM :", res)
                 router.push(`/${res.data.hotelName}/admin`)
                 return { status: "SUCCESS" }
             }

@@ -17,7 +17,7 @@ export default function AddReviewCard({ setOpen, setReviews }) {
             if (res.status === "SUCCESS") {
                 const res = await getHotelReview();
                 if (res.status == "SUCCESS") {
-                    alert("Review added successfully!");
+                    toast.success('Review added successfully')
                     setOpen(false)
                     setReviews(res?.data)
                 }

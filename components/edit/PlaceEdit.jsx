@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useActionState, useState } from 'react'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
+import { toast } from 'sonner'
 
 const EditPlaceCard = ({ place, setEditOpen, setPosts }) => {
     const [imagePreview, setImagePreview] = useState(place?.acf?.place_img || null);
@@ -44,7 +45,7 @@ const EditPlaceCard = ({ place, setEditOpen, setPosts }) => {
             });
 
             if (res.status === "SUCCESS") {
-                alert("Place updated successfully!");
+                toast.success('Place Updated successfully')
                 const res = await getHotelPlaces();
                 if (res.status == "SUCCESS") {
                     setPosts(res.data)

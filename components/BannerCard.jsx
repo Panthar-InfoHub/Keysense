@@ -23,7 +23,7 @@ export default function BannerCard() {
 
             const res = await createBanner(formData, imageUrl);
             if (res.status === "SUCCESS") {
-                alert("Banner added successfully!");
+                toast.success('Banner Added successfully')
             }
         } catch (error) {
             console.error("Error:", error);

@@ -7,6 +7,7 @@ import { editMenu } from '@/lib/edit_action';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { getHotelMenu } from '@/lib/actions';
+import { toast } from 'sonner';
 
 const MenuEdit = ({ menu, setEditOpen, setAllMenuItems, setTotalPages }) => {
     const [imagePreview, setImagePreview] = useState(menu?.acf?.image || null);
@@ -44,7 +45,7 @@ const MenuEdit = ({ menu, setEditOpen, setAllMenuItems, setTotalPages }) => {
             if (res.status === "SUCCESS") {
                 const res = await getHotelMenu({ page: 1, per_page: 50 }) // Fetch all items
                 if (res.status === "SUCCESS") {
-                    alert("Menu updated successfully!");
+                    toast.success('Menu Updated successfully')
                     setAllMenuItems(res.data)
                     setTotalPages(Math.ceil(res.data.length / 20))
                     setEditOpen(false); // Close modal after success
