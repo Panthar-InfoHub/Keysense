@@ -33,12 +33,12 @@ const QrCodeGenerator = ({ name }) => {
     return (
         <div className='flex items-center gap-4 flex-wrap' >
             <div className='relative' >
-                <QRCodeSVG value={`/${name}/createReservation`} size={180} level="H" includeMargin={true} ref={reserVationRef} />
+                <QRCodeSVG value={`https://keysense-eta.vercel.app/${name}/createReservation`} size={180} level="H" includeMargin={true} ref={reserVationRef} />
                 <p className='text-sm mt-2 text-white/80' > Customer Reservation </p>
                 <Button onClick={() => downloadQRCode(reserVationRef)} className="bg-black/80 w-8 h-8 flex justify-center items-center rounded-xl absolute top-2 right-2 hover:bg-black/50" > <Download className='text-white' /> </Button>
             </div>
             <div className='relative' >
-                <QRCodeSVG value={`/${name}/createReview`} size={180} level="H" includeMargin={true} ref={reviewRef} />
+                <QRCodeSVG value={`https://keysense-eta.vercel.app//${name}/createReview`} size={180} level="H" includeMargin={true} ref={reviewRef} />
                 <p className='text-sm text-white/80 mt-2' > Customer Review </p>
                 <Button onClick={() => downloadQRCode(reviewRef)} className="bg-black/80 w-8 h-8 flex justify-center items-center rounded-xl absolute top-2 right-2 hover:bg-black/50" > <Download className='text-white' /> </Button>
             </div>

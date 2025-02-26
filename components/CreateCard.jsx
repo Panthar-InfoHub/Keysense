@@ -10,6 +10,7 @@ import { Calendar } from "./ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { createReservation } from "@/lib/postActions"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export const CreateCard = () => {
     const [adults, setAdults] = useState(1)
@@ -17,6 +18,7 @@ export const CreateCard = () => {
     const [kids, setKids] = useState(0)
     const [rooms, setRooms] = useState(1)
     const [dates, setDates] = useState([])
+    const router = useRouter()
 
     const handleIncrement = (setter, value) => {
         setter(value + 1)
@@ -55,6 +57,7 @@ export const CreateCard = () => {
             const res = await createReservation(formData);
             if (res.status === "SUCCESS") {
                 toast.success('Reservation Create Successfully !!');
+                router.push(`https://www.keysense.co.in/${res.hotelName}/${res.reservationId}`)
             }
         } catch (error) {
             console.error("Error:", error);
