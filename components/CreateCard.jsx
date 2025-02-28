@@ -60,6 +60,7 @@ export const CreateCard = () => {
                 router.push(`https://www.keysense.co.in/${res.hotelName}/${res.reservationId}`)
             }
         } catch (error) {
+            toast.error('Error while creating the reservation !!');
             console.error("Error:", error);
         }
     }

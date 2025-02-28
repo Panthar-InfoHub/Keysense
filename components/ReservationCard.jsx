@@ -1,20 +1,22 @@
 "use client"
 
-import { useState } from "react"
-import { CalendarIcon } from "lucide-react"
+import { useActionState, useState } from "react"
+import { CalendarIcon, LoaderIcon } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Calendar } from "./ui/calendar"
-import { customFormat } from "@/lib/utils"
+import { customFormat, generateGuestID } from "@/lib/utils"
+import { toast } from "sonner"
+import { format } from "date-fns"
+import { createReservation } from "@/lib/postActions"
 
 export const ReservationCard = () => {
     const [adults, setAdults] = useState(1)
     const [kids, setKids] = useState(0)
     const [rooms, setRooms] = useState(1)
-    const [date, setDate] = useState()
-    const reservationId = "RSV8061"
+    const [dates, setDates] = useState([])
 
     const handleIncrement = (setter, value) => {
         setter(value + 1)
@@ -25,14 +27,40 @@ export const ReservationCard = () => {
             setter(value - 1)
         }
     }
+    const formatDateRange = (dates) => {
+        if (dates.length === 0) return "Pick dates"
+        if (dates.length === 1) return format(dates[0], "PPP")
 
+        return `${format(dates[0], "PPP")} - ${format(dates[dates.length - 1], "PPP")}`
+    }
+
+    const handleAddReservation = async (prev, formData) => {
+
+        try {
+            formData.append('adults', adults);
+            formData.append('kids', kids);
+            formData.append('rooms', rooms);
+            formData.append('check_in', dates[0] ? dates[0].toISOString() : '');
+            formData.append('check_out', dates[dates.length - 1] ? dates[dates.length - 1].toISOString() : '');
+            const res = await createReservation(formData);
+            if (res.status === "SUCCESS") {
+                toast.success('Reservation Create Successfully !!');
+                setDates([])
+            }
+        } catch (error) {
+            toast.error('Error while creating the reservation !!');
+            setDates([])
+            console.error("Error:", error);
+        }
+    }
+    const [state, formAction, isPending] = useActionState(handleAddReservation, { error: "", status: "INITIAL" })
     return (
         <Card className="w-full max-w-md bg-background text-white">
             <CardHeader className="p-4"  >
                 <CardTitle className="text-2xl">Create Reservation</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6 text-xs">
-                <form action="">
+                <form action={formAction}>
                     <div className="space-y-4">
                         <h2 className="text-lg font-semibold text-gray-200">Customer Details</h2>
 
@@ -40,14 +68,14 @@ export const ReservationCard = () => {
                             <label htmlFor="name" className="text-gray-400">
                                 Name
                             </label>
-                            <Input id="name" className="bg-transparent border-gray-800 text-white" placeholder="Enter customer name" />
+                            <Input id="guest_name" name="guest_name" className="bg-transparent border-gray-800 text-white" placeholder="Enter customer name" />
                         </div>
 
                         <div className="space-y-2">
                             <label htmlFor="phone" className="text-gray-400">
                                 Phone no.
                             </label>
-                            <Input id="phone" className="bg-transparent border-gray-800 text-white" placeholder="Enter phone number" />
+                            <Input id="guest_no" name="guest_no" className="bg-transparent border-gray-800 text-white" placeholder="Enter phone number" />
                         </div>
 
                         <div className="space-y-2">
@@ -127,7 +155,7 @@ export const ReservationCard = () => {
 
                         <div className="space-y-2">
                             <label className="text-gray-400">Reservation ID</label>
-                            <Input value={reservationId} disabled className="bg-transparent border-gray-800 text-white" />
+                            <Input value={generateGuestID()} disabled className="bg-transparent border-gray-800 text-white" />
                         </div>
 
                         <div className="space-y-2">
@@ -136,20 +164,20 @@ export const ReservationCard = () => {
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant="outline"
-                                        className="w-full bg-transparent border-gray-800 text-white hover:bg-gray-800 flex items-center justify-start gap-2"
+                                        className="w-full bg-white border-gray-200 text-gray-500 hover:bg-gray-800 flex items-center justify-start gap-2"
                                         type="button"
                                     >
                                         <CalendarIcon className="h-4 w-4" />
-                                        {date ? customFormat(date, "PPP") : "Pick a date"}
+                                        {formatDateRange(dates)}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0 bg-black border-gray-800">
-                                    <Calendar mode="single" selected={date} onSelect={setDate} initialFocus className="" />
+                                    <Calendar mode="multiple" selected={dates} onSelect={setDates} initialFocus className="" />
                                 </PopoverContent>
                             </Popover>
                         </div>
 
-                        <Button type="submit" > Create </Button>
+                        <Button type="submit" > {isPending ? <>  <LoaderIcon className="animate-spin" /> </> : <> Create </>} </Button>
                     </div>
                 </form>
             </CardContent>
