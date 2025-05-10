@@ -1,7 +1,7 @@
 "use client"
 
 import { loginUser } from '@/lib/actions'
-import { Send } from 'lucide-react'
+import { Loader2, Send } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useActionState, useState } from 'react'
 import { Button } from './ui/button'
@@ -41,7 +41,7 @@ const LoginForm = () => {
 
 
             <Button type="submit" className="bg-neutral-800 text-white hover:!bg-neutral-600 transition-all duration-300 ease-in-out w-fit" disbaled={isPending.toString()} >
-                {isPending ? 'Signing in...' : 'Sign In'}
+                {isPending ? <> Signing in... <Loader2 className='size-4 animate-spin' /> </> : 'Sign In'}
                 <Send className='size-6 ml-2' />
             </Button>
         </form>

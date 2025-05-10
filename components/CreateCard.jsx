@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, Loader2 } from "lucide-react"
 import { useActionState, useState } from "react"
 import { Calendar } from "./ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
@@ -68,7 +68,7 @@ export const CreateCard = () => {
     const [state, formAction, isPending] = useActionState(handleAddReservation, { error: "", status: "INITIAL" })
 
     return (
-        <Card className="w-full max-w-md bg-white text-black">
+        <Card className="w-full max-w-md bg-white text-primary-foreground">
             <CardHeader className="p-4"  >
                 <CardTitle className="flex justify-center flex-col gap-2 items-center">
                     <span className='text-3xl' > 🙏 </span>
@@ -76,18 +76,18 @@ export const CreateCard = () => {
                     <p className="text-sm font-normal text-muted" > Please fill your deatils to make reservation </p>
                 </CardTitle>
             </CardHeader>
-            <CardContent className=" text-xs text-black">
+            <CardContent className=" text-xs text-primary-foreground">
                 <div className="space-y-4">
                     <form action={formAction} className="flex flex-col gap-4" >
                         <h2 className="text-xs font-semibold">Customer Details</h2>
                         <div className="space-y-2" style={{ display: step === 1 ? "block" : "none" }} >
                             <label> Name </label>
-                            <Input id="guest_name" name="guest_name" required className="bg-transparent border-gray-200 text-black placeholder:text-black" placeholder="Enter customer name" />
+                            <Input id="guest_name" name="guest_name" required className="bg-transparent border-gray-200 text-primary-foreground placeholder:text-primary-foreground" placeholder="Enter customer name" />
                         </div>
 
                         <div className="space-y-2" style={{ display: step === 1 ? "block" : "none" }} >
                             <label>Phone no.</label>
-                            <Input id="guest_no" name="guest_no" required className="bg-transparent border-gray-200 text-black placeholder:text-black" placeholder="Enter phone number" />
+                            <Input id="guest_no" name="guest_no" required className="bg-transparent border-gray-200 text-primary-foreground placeholder:text-primary-foreground" placeholder="Enter phone number" />
                         </div>
                         <div className="space-y-2" style={{ display: step === 1 ? "block" : "none" }} >
                             <label>Number Of Rooms</label>
@@ -192,7 +192,7 @@ export const CreateCard = () => {
                                 </Button>
                             </>}
                             {step === 2 && <>
-                                <Button type="submit" disabled={isPending} className="w-full bg-background text-white hover:bg-black/80" > Book </Button>
+                                <Button type="submit" disabled={isPending} className="w-full bg-background text-white hover:bg-black/80" > {isPending ? <> <Loader2 className="h-4 w-4 animate-spin" /> </> : "Book"} </Button>
                             </>}
 
 

@@ -23,7 +23,7 @@ export default function CustomReview() {
     }
     const [state, formAction, isPending] = useActionState(handleAddReview, { error: "", status: "INITIAL" })
     return (
-        <Card className=" w-[95%] sm:w-full max-w-md bg-white text-black">
+        <Card className=" w-[95%] sm:w-full max-w-md bg-white text-primary-foreground">
             <CardHeader className="p-4"  >
                 <CardTitle className="flex justify-center flex-col gap-2 items-center">
                     <span className='text-3xl' > 🙏 </span>
@@ -49,17 +49,17 @@ export default function CustomReview() {
 
                     <div className="">
                         <label className="text-xs">Guest Name</label>
-                        <Input id="guest_name" name="guest_name" className="bg-transparent border-gray-200 text-black" />
+                        <Input id="guest_name" name="guest_name" className="bg-transparent border-gray-200 text-primary-foreground" />
                     </div>
 
                     <div className="">
                         <label className="text-xs">Guest Number</label>
-                        <Input id="guest_no" name="guest_no" className="bg-transparent border-gray-200 text-black" />
+                        <Input id="guest_no" name="guest_no" className="bg-transparent border-gray-200 text-primary-foreground" />
                     </div>
 
                     <div className="">
                         <label className="text-xs">Review</label>
-                        <Textarea id="content" name="content" className="bg-transparent border-gray-200 text-black" />
+                        <Textarea id="content" name="content" className="bg-transparent border-gray-200 text-primary-foreground" />
                     </div>
                     <div className="" >
                         <Button disabled={isPending} type="submit" className="!text-xs !p-2 bg-black text-white w-full hover:bg-black/80" >Create</Button>

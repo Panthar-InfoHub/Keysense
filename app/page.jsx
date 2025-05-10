@@ -67,7 +67,7 @@ const page = () => {
 
                             <TabsList className="text-sm flex flex-col gap-4 font-bold" >
                                 <TabsTrigger value="user" className="!p-2 bg-black/40 flex justify-center items-center gap-2 " > <User className='size-5' /> User Login </TabsTrigger>
-                                <TabsTrigger value="hotel" className="!p-2 flex justify-center items-center !text-black/80 shadow-sm border bg-white gap-3 data-[state=active]:!text-white"  > <Building className='size-5' />  Hotel Login</TabsTrigger>
+                                <TabsTrigger value="hotel" className="!p-2 flex justify-center items-center !text-primary-foreground/80 shadow-sm border bg-white gap-3 data-[state=active]:!text-white"  > <Building className='size-5' />  Hotel Login</TabsTrigger>
                             </TabsList>
 
                         </Tabs>
@@ -111,7 +111,7 @@ const page = () => {
 
                         <TabsList className="text-sm flex flex-col gap-4 font-bold" >
                             <TabsTrigger value="user" className="!p-2 bg-black/40 flex justify-center items-center gap-2 " > <User className='size-5' /> User Login </TabsTrigger>
-                            <TabsTrigger value="hotel" className="!p-2 flex justify-center items-center !text-black/80 shadow-sm border bg-white gap-3 data-[state=active]:!text-white"  > <Building className='size-5' />  Hotel Login</TabsTrigger>
+                            <TabsTrigger value="hotel" className="!p-2 flex justify-center items-center !text-primary-foreground/80 shadow-sm border bg-white gap-3 data-[state=active]:!text-white"  > <Building className='size-5' />  Hotel Login</TabsTrigger>
 
                             <p className='text-center text-neutral-800 text-xs underline font-medium' > Terms and Condition </p>
                         </TabsList>
